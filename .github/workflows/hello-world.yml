@@ -3,6 +3,7 @@ name: Hello World Workflow
 # Phần này định nghĩa KHI NÀO chạy (Events)
 on:
   push:             # Chạy khi có code push lên
+    paths: ['backend/**']
   workflow_dispatch: # Cho phép bạn bấm nút "Run" thủ công trên web (rất tiện để test)
 
 # Phần này định nghĩa LÀM CÁI GÌ (Jobs)
