@@ -1,25 +1,26 @@
-name: Hello World Workflow
+name: Backend CI Integration
 
-# Phần này định nghĩa KHI NÀO chạy (Events)
 on:
-  push:             # Chạy khi có code push lên
+  push:
     paths: ['backend/**']
-  workflow_dispatch: # Cho phép bạn bấm nút "Run" thủ công trên web (rất tiện để test)
+  workflow_dispatch:
 
-# Phần này định nghĩa LÀM CÁI GÌ (Jobs)
 jobs:
-  say-hello:
-    runs-on: ubuntu-latest # Mượn một máy Ubuntu của GitHub
+  test-backend:
+    runs-on: ubuntu-latest
     
     steps:
-      # Bước 1: In ra màn hình
-      - name: Bước chào hỏi
-        run: echo "Hello World! Tôi là GitHub Actions."
+      # BƯỚC QUAN TRỌNG NHẤT: Lấy code từ repo về máy runner
+      # Nếu thiếu bước này, runner sẽ báo lỗi "File not found"
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      # Bước 2: In ra thông tin hệ thống (để cho vui)
-      - name: Khoe cấu hình máy
-        run: |
-          echo "Hôm nay là ngày:"
-          date
-          echo "Máy này đang chạy ở thư mục:"
-          pwd
+      # Cài đặt môi trường Python
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10' 
+
+      # Chạy file code của bạn
+      - name: Run App Script
+        run: python backend/app.py
