@@ -1,4 +1,4 @@
-name: Backend CI Integration
+name: Backend Docker CI
 
 on:
   push:
@@ -6,22 +6,21 @@ on:
   workflow_dispatch:
 
 jobs:
-  test-backend:
-    name: Kiểm tra hoạt động của backend
+  build-docker:
+    name: 🐳 Đóng gói Docker Image
     runs-on: ubuntu-latest
     
     steps:
-      # BƯỚC QUAN TRỌNG NHẤT: Lấy code từ repo về máy runner
-      # Nếu thiếu bước này, runner sẽ báo lỗi "File not found"
-      - name: Checkout code
+      - name: Lấy code về Runner
         uses: actions/checkout@v4
 
-      # Cài đặt môi trường Python
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10' 
+      - name: Kiểm tra phiên bản Docker trên máy GitHub
+        run: docker --version
 
-      # Chạy file code của bạn
-      - name: Run App Script
-        run: python backend/app.py
+      - name: Build Docker Image
+        run: |
+          cd backend
+          docker build -t app-backend:v1 .
+          
+      - name: Xem danh sách Image đã tạo
+        run: docker images
