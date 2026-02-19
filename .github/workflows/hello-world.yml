@@ -1,0 +1,24 @@
+name: Hello World Workflow
+
+# Phần này định nghĩa KHI NÀO chạy (Events)
+on:
+  push:             # Chạy khi có code push lên
+  workflow_dispatch: # Cho phép bạn bấm nút "Run" thủ công trên web (rất tiện để test)
+
+# Phần này định nghĩa LÀM CÁI GÌ (Jobs)
+jobs:
+  say-hello:
+    runs-on: ubuntu-latest # Mượn một máy Ubuntu của GitHub
+    
+    steps:
+      # Bước 1: In ra màn hình
+      - name: Bước chào hỏi
+        run: echo "Hello World! Tôi là GitHub Actions."
+
+      # Bước 2: In ra thông tin hệ thống (để cho vui)
+      - name: Khoe cấu hình máy
+        run: |
+          echo "Hôm nay là ngày:"
+          date
+          echo "Máy này đang chạy ở thư mục:"
+          pwd
